@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laramie Eats</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+    body {
+        background-image: url('laramieEats.png');
+        background-size: cover;
+        font-family: Arial, sans-serif;
+        color: #ffffff; /* Text color on the background */
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+    .wrapper {
+        font-size: 20vmin;
+        height: 2em;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wrapper span {
+        font-family: Impact, 'Anton', Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-weight: bold;
+        font-style: italic;
+        display: block;
+        position: absolute;
+        letter-spacing: -.005em;
+    }
+
+    .wrapper span:first-child {
+        color: #ffb13b; /* Color for the first word "Laramie" */
+        --text-stroke-color: rgba(0, 0, 0, 0.433); /* Text stroke color */
+        --text-stroke-width: .02em; /* Text stroke width */
+        --translate-x: -.255em; /* Horizontal translation for the first word */
+        --translate-y: -.25em; /* Vertical translation for the first word */
+    }
+
+    .wrapper span:last-child {
+        color: #ace8ff; /* Color for the second word "Eats" */
+        --text-stroke-color: rgba(0, 0, 0, 0.489); /* Text stroke color */
+        --text-stroke-width: .02em; /* Text stroke width */
+        --translate-x: .255em; /* Horizontal translation for the second word */
+        --translate-y: .25em; /* Vertical translation for the second word */
+    }
+
+    .wrapper span::before {
+        content: attr(data-text);
+        display: block;
+        position: relative;
+        padding: 0 .1em;
+        z-index: 1;
+        -webkit-text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    }
+
+    .wrapper span:first-child::before {
+        transform: translate(var(--translate-x), var(--translate-y));
+    }
+
+    .wrapper span:last-child::before {
+        transform: translate(var(--translate-x), var(--translate-y));
+    }
+    .btn-open {
+        background-color: #bee9ff;
+        border-radius: 100px;
+        box-shadow: rgba(0, 52, 141, 0.332) 0 -25px 18px -14px inset,rgba(0, 52, 141, 0.332) 0 1px 2px,rgba(0, 52, 141, 0.332) 0 2px 4px,rgba(0, 52, 141, 0.332) 0 4px 8px,rgba(0, 52, 141, 0.332) 0 8px 16px,rgba(0, 52, 141, 0.332) 0 16px 32px;
+        color: #0081c2;
+        cursor: pointer;
+        display: inline-block;
+        font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+        padding: 7px 20px;
+        text-align: center;
+        text-decoration: none;
+        transition: all 250ms;
+        border: 0;
+        font-size: 20px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        position: absolute;
+        bottom: 320px;
+        right: 220px;
+        padding: 20px 20px;
+      }
+
+      .btn-open:hover {
+        box-shadow: rgba(0, 52, 141, 0.332) 0 -25px 18px -14px inset,rgba(0, 52, 141, 0.332) 0 1px 2px,rgba(0, 52, 141, 0.332) 0 2px 4px,rgba(0, 52, 141, 0.332) 0 4px 8px,rgba(0, 52, 141, 0.332) 0 8px 16px,rgba(0, 52, 141, 0.332) 0 16px 32px;
+        transform: scale(1.05) rotate(-1deg);
+      }
+      .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 153, 0, 0.858);
+        color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        font-size: 40px;
+        display: none;
+        z-index: 1000;
+    }
+
+    .popup-content {
+        text-align: center;
+    }
+
+    .popup-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #ffffff;
+        cursor: pointer;
+        font-size: 20px;
+    }
+</style>
+</head>
+<body>
+    <div class="wrapper">
+        <span data-text="Laramie"></span>
+        <span data-text="Eats"></span>
+    </div>
+    <div>
+        <button class="btn-open" onclick="openPopup()">I'm hungry!!</button>
+    </div>
+
+    <div class="popup" id="restaurantPopup">
+        <div class="popup-content">
+            <h2 id="restaurantName"></h2>
+            <span class="popup-close" onclick="closePopup()">X</span>
+        </div>
+    </div>
+
+    <script>
+        function openPopup() {
+            const restaurants = [
+                "McDonald's", "Dairy Free", "Pizza Hut", "Buffalo Indian", "Maria's",
+                "Papa John's", "Fernandito's", "Taco Bell", "Sonic", "Corona Village",
+                "Almanza's", "Rib & Chop", "Applebee's", "Chili's", "Jimmy John's",
+                "Subway", "Domino's", "Accomplice", "Arby's", "Wendy's", "Qdoba",
+                "Taco John", "Dickey's", "Niko", "O'Dwyer's", "Wash", "Burger King",
+                "Thai Spice", "Andale Rapido", "Chipotle", "Born in a Barn", "Mizu Sushi",
+                "Altitude", "Lovejoy's", "McAlister's", "Chick Fil A", "Bejo Dua",
+                "Anong's", "Alibi", "Human Bean"
+            ];
+
+            const randomRestaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
+            document.getElementById('restaurantName').textContent = randomRestaurant;
+            document.getElementById('restaurantPopup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('restaurantPopup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
